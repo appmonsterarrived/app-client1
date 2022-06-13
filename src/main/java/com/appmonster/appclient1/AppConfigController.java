@@ -5,20 +5,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RefreshScope
+@RestController
 public class AppConfigController {
 
-    @Autowired
-    Environment env;
+    @Value("${spring.datasource.url: default url}")
+    public String url;
 
-    @Value("${db.host: hostname}")
-    String host;
+    @Value("${spring.datasource.username: default username}")
+    public String username;
 
-    @GetMapping("/getDbProp")
-    public String getProp() {
-        return "DB host " + host + " & password  " + env.getProperty("db.password");
+    @Value("${spring.datasource.password: default password}")
+    public String password;
+
+    @ResponseBody
+    @GetMapping("/dbproperties")
+    public DBConfigProperties getProp() {
+        return new DBConfigProperties(url, username, password);
     }
 }

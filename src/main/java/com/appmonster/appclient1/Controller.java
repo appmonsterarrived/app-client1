@@ -12,11 +12,9 @@ public class Controller {
     @Value("${welcome.greeting: default value}")
     private String greeting;
 
-    @Value("${env}")
-    private String env;
 
-    @GetMapping("/getProp")
+    @GetMapping("/greeting")
     public String getProp() {
-        return "Greeting " + greeting + ". Env " + env;
+        return "Greeting " + greeting + ".";
     }
 }
